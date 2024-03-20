@@ -17,7 +17,7 @@ export default async function getData(
     if (tasks != null) {
       for (let index = 0; index < tasks.length; index++) {
         tmpTaskList.push(<li className="flex items-center justify-between py-2" key={tasks[index]["id"]}>
-          <Task taskList={taskList} id={tasks[index]["id"]} text={tasks[index]["text"] ?? ""} update_at={tasks[index]["update_at"] ?? ""}></Task>
+          <Task taskList={taskList} id={tasks[index]["id"]} text={tasks[index]["text"] ?? ""} update_at={tasks[index]["updated_at"] ?? ""}></Task>
         </li>)
       }
       taskList(tmpTaskList)
