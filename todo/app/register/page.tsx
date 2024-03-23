@@ -44,7 +44,7 @@ const Register = () => {
           </Box>
           <Box>
             <Heading size="xs" textTransform="uppercase">
-              パスワード
+              パスワード：
             </Heading>
             <Input
               type="password"
