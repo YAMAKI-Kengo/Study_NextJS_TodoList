@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { ModalType } from './modal/modalType';
-import SignUpForm from './modal/signupForm';
-import SignInForm from './modal/signinForm';
+import { useState } from "react";
+import { ModalType } from "./modal/modalType";
+import SignUpForm from "./modal/signupForm";
+import SignInForm from "./modal/signinForm";
 
 interface Props {
   modalType: ModalType;

@@ -1,14 +1,14 @@
-'use client';
-import type { Session } from '@supabase/auth-helpers-nextjs';
-import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
-import ModalCore from './modalCore';
-import { ModalType } from './modal/modalType';
+"use client";
+import type { Session } from "@supabase/auth-helpers-nextjs";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import ModalCore from "./modalCore";
+import { ModalType } from "./modal/modalType";
 const Navigation = ({ session }: { session: Session | null }) => {
   const pathname = usePathname();
   const router = useRouter();
-  if (session === null && pathname?.includes('/todo')) {
-    router.push('/');
+  if (session === null && pathname?.includes("/todo")) {
+    router.push("/");
   }
   return (
     <header>
@@ -21,10 +21,7 @@ const Navigation = ({ session }: { session: Session | null }) => {
           </div>
           {session ? (
             <div>
-              <Link
-                className="text-gray-600 hover:text-blue-600"
-                href="/todo"
-              >
+              <Link className="text-gray-600 hover:text-blue-600" href="/todo">
                 todo
               </Link>
             </div>
@@ -41,7 +38,7 @@ const Navigation = ({ session }: { session: Session | null }) => {
         </nav>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

@@ -1,11 +1,11 @@
-import { supabase } from "@/utils/supabase/supabase"
-import { Dispatch, SetStateAction, ReactElement } from "react"
-import getData from "./getData"
+import { supabase } from "@/utils/supabase/supabase";
+import { Dispatch, SetStateAction, ReactElement } from "react";
+import getData from "./getData";
 
 export default function RemoveDialog(props: {
-  id: number,
-  showModal: Dispatch<SetStateAction<boolean>>,
-  taskList: Dispatch<SetStateAction<Array<ReactElement>>>
+  id: number;
+  showModal: Dispatch<SetStateAction<boolean>>;
+  taskList: Dispatch<SetStateAction<Array<ReactElement>>>;
 }) {
   const { showModal, taskList } = props;
 
@@ -14,14 +14,14 @@ export default function RemoveDialog(props: {
     showModal(false);
     try {
       const { error } = await supabase
-        .from('tasks')
+        .from("tasks")
         .delete()
-        .eq('id', props.id)
+        .eq("id", props.id);
       if (error) {
         console.log(error);
       }
 
-      await getData(taskList)
+      await getData(taskList);
     } catch (error) {
       console.log(error);
     }
@@ -80,5 +80,5 @@ export default function RemoveDialog(props: {
         </div>
       </div>
     </div>
-  )
+  );
 }

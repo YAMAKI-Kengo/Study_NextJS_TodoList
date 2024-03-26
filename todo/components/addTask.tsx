@@ -7,7 +7,6 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
   useDisclosure,
@@ -24,8 +23,8 @@ export default function AddTask(props: {
 }) {
   const [text, setText] = useState("");
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedOption, setSelectedOption] = useState("");
-  const [date, setDate] = useState("");
+  const [priority, setPriority] = useState("");
+  const [deadline, setDeadline] = useState("");
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -35,7 +34,7 @@ export default function AddTask(props: {
     try {
       let { data, error } = await supabase
         .from("tasks")
-        .insert([{ text: text }])
+        .insert([{ text: text, priority: priority, deadline: deadline }])
         .select();
       if (error) {
         console.log(error);
@@ -49,13 +48,13 @@ export default function AddTask(props: {
 
   return (
     <>
-<Button
-  onClick={onOpen}
-  colorScheme='messenger'
-  className="mt-4 w-full font-semibold rounded-lg px-4 py-2"
->
-  タスクを追加する
-</Button>
+      <Button
+        onClick={onOpen}
+        colorScheme="messenger"
+        className="mt-4 w-full font-semibold rounded-lg px-4 py-2"
+      >
+        タスクを追加する
+      </Button>
 
       <Modal
         initialFocusRef={initialRef}
@@ -74,7 +73,7 @@ export default function AddTask(props: {
                 <Input
                   type="text"
                   className="w-full border border-gray-300 rounded-lg px-2 py-1"
-                  placeholder="新しいタスクを入力してください"
+                  placeholder="新しいタスク名を入力してください"
                   required
                   value={text}
                   onChange={(e) => setText(e.target.value)}
@@ -83,25 +82,25 @@ export default function AddTask(props: {
               <FormControl mt={4}>
                 <FormLabel>優先度</FormLabel>
                 <Select
-                  value={selectedOption}
+                  required
+                  value={priority}
                   className="w-full border border-gray-300 rounded-lg px-2 py-1"
-                  onChange={(e) => setSelectedOption(e.target.value)}
+                  onChange={(e) => setPriority(e.target.value)}
                 >
                   <option value="">選択してください</option>
-                  <option value="high">高</option>
-                  <option value="medium">中</option>
-                  <option value="low">低</option>
+                  <option value="高">高</option>
+                  <option value="中">中</option>
+                  <option value="低">低</option>
                 </Select>
               </FormControl>
               <FormControl mt={4}>
                 <FormLabel>期日</FormLabel>
-              <Input
-                placeholder="Select Date and Time"
-                size="md"
-                type="datetime-local"
-                value={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
+                <Input
+                  size="md"
+                  type="datetime-local"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                />
               </FormControl>
               <button
                 type="submit"
