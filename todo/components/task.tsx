@@ -2,7 +2,8 @@
 import { useState, Dispatch, SetStateAction, ReactElement } from "react";
 import EditDialog from "./editDialog";
 import RemoveDialog from "./removeDialog";
-import { Highlight } from "@chakra-ui/react";
+import { Button, Highlight } from "@chakra-ui/react";
+import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 
 export default function Task(props: {
   id: number;
@@ -51,20 +52,22 @@ export default function Task(props: {
       </div>
 
       <div className="flex">
-        <button
-          type="button"
-          className="w-9 text-blue-500 hover:text-blue-600"
+        <Button
+          leftIcon={<EditIcon />}
+          colorScheme="messenger"
           onClick={() => setShowEditModal(true)}
         >
           編集
-        </button>
-        <button
-          type="button"
-          className="ml-2 w-9 text-red-500 hover:text-red-600"
+        </Button>
+
+        <Button
+          marginLeft={"2"}
+          leftIcon={<DeleteIcon />}
+          colorScheme="red"
           onClick={() => setShowRemoveModal(true)}
         >
           削除
-        </button>
+        </Button>
       </div>
       {showEditModal ? (
         <EditDialog

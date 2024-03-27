@@ -20,11 +20,23 @@ const Navigation = ({ session }: { session: Session | null }) => {
             </Link>
           </div>
           {session ? (
-            <div>
-              <Link className="text-gray-600 hover:text-blue-600" href="/todo">
-                todo
-              </Link>
-            </div>
+            <>
+              <div>
+                <Link
+                  className="text-gray-600 hover:text-blue-600"
+                  href="/todo"
+                >
+                  todo
+                </Link>
+              </div>
+              <form action="/auth/logout" method="post">
+                <button>
+                  <div className="text-gray-600 hover:text-blue-600">
+                    Logout
+                  </div>
+                </button>
+              </form>
+            </>
           ) : (
             <>
               <div>
