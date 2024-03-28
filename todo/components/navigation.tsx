@@ -1,15 +1,21 @@
 "use client";
+
 import type { Session } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import ModalCore from "./modalCore";
 import { ModalType } from "./modal/modalType";
+import { useEffect } from "react";
 const Navigation = ({ session }: { session: Session | null }) => {
   const pathname = usePathname();
   const router = useRouter();
-  if (session === null && pathname?.includes("/todo")) {
-    router.push("/");
-  }
+
+  useEffect(() => {
+    if (session === null && pathname?.includes("/todo")) {
+      router.push('/');
+    } [session, pathname];
+  })
+  
   return (
     <header>
       <div className="flex items-center justify-between px-4 py-2 bg-white shadow-md">
