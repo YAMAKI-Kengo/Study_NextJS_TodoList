@@ -25,6 +25,7 @@ export default function AddTask(props: {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [priority, setPriority] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [userID, setUserID] = useState("");
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);
@@ -32,9 +33,16 @@ export default function AddTask(props: {
   const onSubmit = async (event: any) => {
     event.preventDefault();
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user === null) return;
+
       let { data, error } = await supabase
         .from("tasks")
-        .insert([{ text: text, priority: priority, deadline: deadline }])
+        .insert([
+          { text: text, priority: priority, deadline: deadline, user_id: user.id },
+        ])
         .select();
       if (error) {
         console.log(error);
