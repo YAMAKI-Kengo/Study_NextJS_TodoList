@@ -2,6 +2,7 @@ import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 import { Providers } from "./provider";
 import SupabaseListener from "@/components/supabaseListener";
+import { NextImage } from "./components/NextImage";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -24,6 +25,7 @@ export default function RootLayout({
         <div>
           <SupabaseListener />
         </div>
+        <NextImage />
         <main className="min-h-screen flex flex-col items-center">
           <Providers>{children}</Providers>
         </main>
