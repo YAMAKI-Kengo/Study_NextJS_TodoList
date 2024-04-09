@@ -25,7 +25,6 @@ export default function AddTask(props: {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [priority, setPriority] = useState("");
   const [deadline, setDeadline] = useState("");
-  const [userID, setUserID] = useState("");
 
   const initialRef = React.useRef(null);
   const finalRef = React.useRef(null);

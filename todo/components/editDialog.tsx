@@ -1,34 +1,43 @@
-import { supabase } from "@/utils/supabase/supabase"
-import { Dispatch, SetStateAction, ReactElement, useState } from "react"
-import getData from "./getData"
+import { supabase } from "@/utils/supabase/supabase";
+import { Dispatch, SetStateAction, ReactElement, useState } from "react";
+import getData from "./getData";
+import { FormControl, FormLabel, Select, Input } from "@chakra-ui/react";
 
 export default function EditDialog(props: {
-  id: number,
-  showModal: Dispatch<SetStateAction<boolean>>,
-  taskList: Dispatch<SetStateAction<Array<ReactElement>>>
+  id: number;
+  showModal: Dispatch<SetStateAction<boolean>>;
+  taskList: Dispatch<SetStateAction<Array<ReactElement>>>;
 }) {
   const { showModal, taskList } = props;
   const [text, setText] = useState("");
+  const [priority, setPriority] = useState("");
+  const [deadline, setDeadline] = useState("");
 
   const onSubmit = async (event: any) => {
     event.preventDefault();
     showModal(false);
     try {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user === null) return;
+
       const { data, error } = await supabase
-        .from('tasks')
-        .update({ text: text })
-        .eq('id', props.id)
-        .select()
+        .from("tasks")
+        .update({ text: text, priority: priority, deadline: deadline, user_id: user.id })
+        .eq("id", props.id)
+        .select();
+
+      console.log(user.id)
       if (error) {
         console.log(error);
       }
 
-      await getData(taskList)
+      await getData(taskList);
     } catch (error) {
       console.log(error);
     }
   };
-
 
   return (
     <div className="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full h-screen bg-black-rgba pt-28">
@@ -64,16 +73,40 @@ export default function EditDialog(props: {
           </div>
           <div className="p-4 md:p-5">
             <form className="space-y-4" onSubmit={onSubmit}>
-              <div>
-                <input
+              <FormControl>
+                <FormLabel>タスク名</FormLabel>
+                <Input
                   type="text"
-                  name="text"
-                  id="text"
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  className="w-full border border-gray-300 rounded-lg px-2 py-1"
+                  placeholder="新しいタスク名を入力してください"
                   required
-                  value={text} onChange={(e) => setText(e.target.value)}
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
                 />
-              </div>
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>優先度</FormLabel>
+                <Select
+                  required
+                  value={priority}
+                  className="w-full border border-gray-300 rounded-lg px-2 py-1"
+                  onChange={(e) => setPriority(e.target.value)}
+                >
+                  <option value="">選択してください</option>
+                  <option value="高">高</option>
+                  <option value="中">中</option>
+                  <option value="低">低</option>
+                </Select>
+              </FormControl>
+              <FormControl mt={4}>
+                <FormLabel>期日</FormLabel>
+                <Input
+                  size="md"
+                  type="datetime-local"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                />
+              </FormControl>
               <div>
                 <button
                   type="submit"
@@ -87,5 +120,5 @@ export default function EditDialog(props: {
         </div>
       </div>
     </div>
-  )
+  );
 }
