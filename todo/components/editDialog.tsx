@@ -28,7 +28,6 @@ export default function EditDialog(props: {
         .eq("id", props.id)
         .select();
 
-      console.log(user.id)
       if (error) {
         console.log(error);
       }
